@@ -15,6 +15,7 @@ from datetime import datetime
 import setup
 import random
 import follow
+import content
 
 
 # time of ast request is used to be able to reset the requests,
@@ -68,8 +69,14 @@ def send_rant(tweets, in_reply_to_status_id=0):
         print "max requests"
         return False
 
+
+    time.sleep((1+ random.random())* 30)
     # check if https://twitter.com/AChristLife has a new
     # tweet and RT it
+    string = content.timeline_content(authorize())
+    if string is not None:
+        print 'filler is ' + string
+        authorize().update_status(status=string)
     # check for new replies
     # follow a user
     time.sleep((1+ random.random())* 30)
@@ -78,16 +85,16 @@ def send_rant(tweets, in_reply_to_status_id=0):
         if user_list is None:
             user_list = follow.get_users(authorize())
             print "got user list"
-        else:
-            next_user = user_list.next()
-            print "going to follow " + next_user
-            follow.do_follow(authorize(), next_user)
+
+        next_user = user_list.next()
+        print "going to follow " + next_user
+        follow.do_follow(authorize(), next_user)
     except Exception, e:
         print "Exception!"
         print e
         time.sleep(30)
-    # wait for 30s-5 minutes to be more life-like
-    time.sleep((1+(random.random()*8))*30)
+    # wait for 30-50 minutes to be more life-like
+    time.sleep((1+(random.random()*8))*30 * 60)
 
     last_status_id = in_reply_to_status_id
     for tweet in tweets:
@@ -104,8 +111,12 @@ def send_rant(tweets, in_reply_to_status_id=0):
         last_status_id = authorize().get_user_timeline(screen_name=setup.screen_name, count=1, trim_user=True, exclude_replies=False)[0]["id"]
 
     # return true, since the rant was successfully sent
-    time.sleep(60 * 60 * 4) # 4 hours
-    reset_requests()
+    #time.sleep(60 * 60 * 4) # 4 hours
+    #reset_requests()
+    #content.timeline_content(authorize())
+    #time.sleep(60 * 60 * 4) # 4 hours
+    #reset_requests()
+    #content.timeline_content(authorize())
     return True
 
 # not sleeping by default
@@ -120,7 +131,7 @@ requests_since_last_sleep = 0
 def check_if_requests_are_maximum(limit):
     global requests_since_last_sleep
     global is_sleeping
-    #print("Requests since last sleep: " + str(requests_since_last_sleep))
+    print("Requests since last sleep: " + str(requests_since_last_sleep))
     if requests_since_last_sleep >= limit:
         # set the is_sleeping to true
         if not is_sleeping:
@@ -131,6 +142,9 @@ def check_if_requests_are_maximum(limit):
             reset_requests()
         #return True
     return False
+
+def set_sleep(sleeping=True):
+    is_sleeping = sleeping
 
 
 # if more than 16 minutes hace elapsed since the last request, reset the requests
