@@ -4,6 +4,7 @@
 import time
 # Import twython
 from twython import Twython
+from twython import Twython
 # import the api keys
 import apikeys
 # import threading, to schedule the reset
@@ -12,13 +13,17 @@ from threading import Timer
 from datetime import datetime
 # import setup to get the screen name
 import setup
-
+import random
+import follow
 
 
 # time of ast request is used to be able to reset the requests,
 # if more than 16 minutes have elapsed between the requests
 # get the utc time to not be bothered by summer time
 time_of_last_request = datetime.utcnow()
+
+user_list = None
+
 
 # The api variable is the way to access the api
 def authorize():
@@ -32,7 +37,7 @@ def authorize():
 
 # this method sends a tweet, by first checking with me
 def send_tweet(tweet, in_reply_to_status_id=0):
-    
+
     # send tweet
     if check_if_requests_are_maximum(14):
         # if requests are maximum, then return directly
@@ -47,19 +52,43 @@ def send_tweet(tweet, in_reply_to_status_id=0):
         authorize().update_status(status=tweet, in_reply_to_status_id=in_reply_to_status_id)
     print("sent tweet: " + tweet)
 
+
+
 def send_rant(tweets, in_reply_to_status_id=0):
 
+    global user_list
+
+    print "in send_rant"
     # send tweets with an interval of 30 secoonds
 
     # if requests are above maximum minus number of tweets, then return directly
     # either the entire rant will be sent, or no rant at all
-    if check_if_requests_are_maximum(15-len(tweets)):
+    if check_if_requests_are_maximum(6-len(tweets)):
         # return false, so the caller will know that the rant wasn't sent this time
+        print "max requests"
         return False
 
-    # wait for 5 minutes to be more life-like
-    time.sleep(5*60)
-    
+    # check if https://twitter.com/AChristLife has a new
+    # tweet and RT it
+    # check for new replies
+    # follow a user
+    time.sleep((1+ random.random())* 30)
+    print "user_list " + str(user_list)
+    try:
+        if user_list is None:
+            user_list = follow.get_users(authorize())
+            print "got user list"
+        else:
+            next_user = user_list.next()
+            print "going to follow " + next_user
+            follow.do_follow(authorize(), next_user)
+    except Exception, e:
+        print "Exception!"
+        print e
+        time.sleep(30)
+    # wait for 30s-5 minutes to be more life-like
+    time.sleep((1+(random.random()*8))*30)
+
     last_status_id = in_reply_to_status_id
     for tweet in tweets:
         if last_status_id == 0:
@@ -73,8 +102,10 @@ def send_rant(tweets, in_reply_to_status_id=0):
         time.sleep(20)
         # get the status ad of the newly sent tweet
         last_status_id = authorize().get_user_timeline(screen_name=setup.screen_name, count=1, trim_user=True, exclude_replies=False)[0]["id"]
-    
+
     # return true, since the rant was successfully sent
+    time.sleep(60 * 60 * 4) # 4 hours
+    reset_requests()
     return True
 
 # not sleeping by default
@@ -88,14 +119,17 @@ requests_since_last_sleep = 0
 # if the requests variable isn't over limit, then do nothing
 def check_if_requests_are_maximum(limit):
     global requests_since_last_sleep
-    print("Requests since last sleep: " + str(requests_since_last_sleep))
+    global is_sleeping
+    #print("Requests since last sleep: " + str(requests_since_last_sleep))
     if requests_since_last_sleep >= limit:
         # set the is_sleeping to true
         if not is_sleeping:
             is_sleeping = True
             # delay for 16 minutes
-            Timer(16*60, reset_requests).start()
-        return True
+            #Timer(16*60, reset_requests).start()
+            time.sleep((16 * 60) + (600 * random.random()))
+            reset_requests()
+        #return True
     return False
 
 
