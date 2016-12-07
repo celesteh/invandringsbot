@@ -107,6 +107,9 @@ class MassinvandringStreamer(TwythonStreamer):
             if twythonaccess.send_rant(tweets = [reply], in_reply_to_status_id = tweet["id"]):
                 self.replied_to_users.append(tweet["user"]["id"])
                 self.replied_to_users.sort()
+                twythonaccess.set_sleep(True)
+                time.sleep(5*60*60)
+                twythonaccess.set_sleep(False)
         except Exception, e:
             self.on_error(str(0), str(e))
 

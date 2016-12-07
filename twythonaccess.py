@@ -36,6 +36,32 @@ def authorize():
     # authorize
     return Twython(apikeys.CONSUMER_KEY, apikeys.CONSUMER_SECRET, apikeys.ACCESS_TOKEN, apikeys.ACCESS_TOKEN_SECRET)
 
+
+def follow_a_user():
+    global user_list
+
+    print "user_list " + str(user_list)
+    try:
+        if user_list is None:
+            user_list = follow.get_users(authorize())
+            print "got user list"
+
+        flag = False
+        tries = 0
+        while (not flag) and (tries < 3):
+            time.sleep(30)
+            next_user = user_list.next()
+            print "going to follow " + next_user
+            flag = follow.do_follow(authorize(), next_user)
+            tries = tries + 1
+
+    except Exception, e:
+        print "Exception!"
+        print e
+        time.sleep(30)
+
+
+
 # this method sends a tweet, by first checking with me
 def send_tweet(tweet, in_reply_to_status_id=0):
 
@@ -57,7 +83,6 @@ def send_tweet(tweet, in_reply_to_status_id=0):
 
 def send_rant(tweets, in_reply_to_status_id=0):
 
-    global user_list
 
     print "in send_rant"
     # send tweets with an interval of 30 secoonds
@@ -80,22 +105,12 @@ def send_rant(tweets, in_reply_to_status_id=0):
     # check for new replies
     # follow a user
     time.sleep((1+ random.random())* 30)
-    print "user_list " + str(user_list)
-    try:
-        if user_list is None:
-            user_list = follow.get_users(authorize())
-            print "got user list"
+    follow_a_user()
 
-        next_user = user_list.next()
-        print "going to follow " + next_user
-        follow.do_follow(authorize(), next_user)
-    except Exception, e:
-        print "Exception!"
-        print e
-        time.sleep(30)
     # wait for 30-50 minutes to be more life-like
     time.sleep(30 * 60 + (random.random()* 20 * 60))
-
+    follow_a_user()
+    time.sleep(60 + (random.random() *60))
     last_status_id = in_reply_to_status_id
     for tweet in tweets:
         if last_status_id == 0:

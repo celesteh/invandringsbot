@@ -8,8 +8,8 @@ import setup
 
 def get_users(twitter):
 
-    users = [#'investisock', 'GrateAmerica',
-    'amrightnow', 'USFreedomArmy' , setup.screen_name ]
+    users = ['amrightnow', 'USFreedomArmy' ,'GrateAmerica', setup.screen_name,'investisock' ]
+    random.shuffle(users)
     for user in users:
         yield user
         next_cursor = -1
@@ -29,6 +29,11 @@ def get_users(twitter):
 def do_follow(twitter, user, ifLikely=True):
     #time.sleep(15 + (30* random.random()))
     flag = False
+
+    if user.lower() == setup.screen_name.lower():
+        #can't follow yourself
+        return False
+
     try:
         if ifLikely:
             profile = twitter.show_user(screen_name=user)
