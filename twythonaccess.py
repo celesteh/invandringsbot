@@ -94,7 +94,7 @@ def send_rant(tweets, in_reply_to_status_id=0):
         print e
         time.sleep(30)
     # wait for 30-50 minutes to be more life-like
-    time.sleep(30 * 60 + (random.random()* 20 * 60)
+    time.sleep(30 * 60 + (random.random()* 20 * 60))
 
     last_status_id = in_reply_to_status_id
     for tweet in tweets:
