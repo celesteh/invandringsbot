@@ -13,21 +13,33 @@ import content
 import setup
 
 
+
 # the main function will be called when this script is called in terminal
 # the bash command "python3 mainbot.py" will call this function
 def main():
     # check if bot has enough followers_count
-    profile = twythonaccess.authorize().show_user(screen_name=setup.screen_name)
-    while (int(profile['followers_count']) < 400) or setup.on_probation:
-        twythonaccess.send_rant([content.construct_tweet(random.choice(setup.templates))])
-        twythonaccess.follow_a_user()
-        time.sleep(60 * 60 * random.random())
-        profile = twythonaccess.authorize().show_user(screen_name=setup.screen_name)
+
+    while True:
+        try:
+
+            while (twythonaccess.get_followers_count() < 450) or setup.on_probation:
+                twythonaccess.post_content()
+                twythonaccess.follow_a_user()
+                time.sleep(60 + (300* random.random()))
+                twythonaccess.follow_a_user()
+                time.sleep((30*60) + (30 * 60 * random.random()))
 
 
-    # start the streamer, and detect for instances of massinvandring in all Swedish tweets
-    streamer = MassinvandringStreamer(apikeys.CONSUMER_KEY, apikeys.CONSUMER_SECRET, apikeys.ACCESS_TOKEN, apikeys.ACCESS_TOKEN_SECRET)
-    streamer.statuses.filter(track = setup.trigger_words, language = "en")
+            # start the streamer, and detect for instances of massinvandring in all Swedish tweets
+            streamer = MassinvandringStreamer(apikeys.CONSUMER_KEY, apikeys.CONSUMER_SECRET, apikeys.ACCESS_TOKEN, apikeys.ACCESS_TOKEN_SECRET)
+            streamer.statuses.filter(track = setup.trigger_words, language = "en")
+
+        except Exception, e:
+            print "Exception in main()"
+            #print e
+            print "sleeping"
+            time.sleep(60*16 + (60 * random.random()))
+            print "continuing..."
 
 
 # if called directly (as in "python3 mainbot.py"), then call main() function

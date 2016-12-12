@@ -5,32 +5,38 @@ import random
 import setup
 
 #twitter = Twython(apikeys.CONSUMER_KEY, apikeys.CONSUMER_SECRET, apikeys.ACCESS_TOKEN, apikeys.ACCESS_TOKEN_SECRET)
+user_list = None
+
+
 
 def get_users(twitter):
 
-    users = ['amrightnow', 'USFreedomArmy' ,'GrateAmerica', setup.screen_name,'investisock' ]
-    random.shuffle(users)
-    for user in users:
-        yield user
-        next_cursor = -1
+    users = ['amrightnow', 'USFreedomArmy' ,'GrateAmerica', apikeys.screen_name,'investisock', 'intellwatch', 'pza_patty' ]
+    while True:
+        random.shuffle(users)
+        for user in users:
+            yield user
+            next_cursor = -1
 
-        while(next_cursor):
+            while(next_cursor):
 
-            search = twitter.get_followers_list(screen_name=user,count=200,cursor=next_cursor)
+                search = twitter.get_followers_list(screen_name=user,count=200,cursor=next_cursor)
 
-            for result in search['users']:
-                yield result['screen_name']
+                for result in search['users']:
+                    yield result['screen_name']
 
-            next_cursor = search["next_cursor"]
+                next_cursor = search["next_cursor"]
 
-            print "time to sleep"
-            time.sleep((60 * 15) + (300 * random.random()))
+                print "time to sleep"
+                time.sleep((60 * 15) + (300 * random.random()))
+                #time.sleep(300 * random.random())
+
 
 def do_follow(twitter, user, ifLikely=True):
     #time.sleep(15 + (30* random.random()))
     flag = False
 
-    if user.lower() == setup.screen_name.lower():
+    if user.lower() == apikeys.screen_name.lower():
         #can't follow yourself
         return False
 
@@ -44,8 +50,8 @@ def do_follow(twitter, user, ifLikely=True):
             time.sleep(2 + (3 * random.random()))
         # check if friendship exists
         relationship = twitter.lookup_friendships(screen_name=user)
-        print relationship
-        print relationship[0]['connections']
+        #print relationship
+        #print relationship[0]['connections']
         if "following" not in relationship[0]['connections']:
             print "not following"
             time.sleep(2 + (3 * random.random()))
@@ -54,10 +60,36 @@ def do_follow(twitter, user, ifLikely=True):
             twitter.create_friendship(screen_name=user)
             flag = True
     except Exception, e:
-        print e
-        time.sleep(60*16)
-
+        print "Exception in follow.do_follow()"
+        #print e
+        #protected acounts cause exceptions, so do a short sleep
+        time.sleep(60+ (60 * random.random()))
+        print "continuing..."
     return flag
+
+
+def follow_a_user(twitter):
+    global user_list
+
+    #print "user_list " + str(user_list)
+    try:
+        if user_list is None:
+            user_list = get_users(twitter)
+            print "got user list"
+
+        flag = False
+        tries = 0
+        while (not flag) and (tries < 3):
+            time.sleep(30)
+            next_user = user_list.next()
+            print "going to follow " + next_user
+            flag = do_follow(twitter, next_user)
+            tries = tries + 1
+
+    except Exception, e:
+        print "Exception!"
+        print e
+        time.sleep(30)
 
 
 #def main():

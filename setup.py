@@ -1,8 +1,8 @@
 import random
-# This file contains the rant array, the screen name of the user, and the trigger word
+# This file contains the callout array, the trigger word,
+# the templates for normal tweets, the accounts to RT,
+# and the percentage of retweets vs generated tweets
 
-# The Twitter handle of the bot.
-screen_name = "dick_deplorable"
 
 # if you've recently had your account warned about
 # suspicious activity, set this to True for a while
@@ -18,7 +18,7 @@ trigger_words = "rapefugee,rapefugees"
 
 # The rant to reply to each user that has tweeted the trigger word with.
 # No more than 15 tweets are allowed, due to the rate limits of the Twitter API.
-rant = [#"Hey, that kind of talk hurts real people. Remember, Jesus was a refugee in Egypt. #MAGA",
+callouts = [#"Hey, that kind of talk hurts real people. Remember, Jesus was a refugee in Egypt. #MAGA",
         #"Hey, that kind of talk hurts real people. My grate grandparents were refugees from Ireland. #MAGA",
         "Hey, that kind of talk hurts real people. Leviticus 19:33-34 commands us to take refugees.",
         "Hey, that kind of talk hurts real people. Matthew 25:35 commands us welcome strangers. #MAGA",
@@ -29,12 +29,17 @@ def make_reply():
     return random.choice(['Leviticus 19:33-34 and Matthew 25:35', 'Matthew 25:35 and Leviticus 19:33-34'])+random.choice([" command", " tell", " instruct"])+ " us to " +random.choice(['welcome strangers', 'welcome refugees', 'accept refugees', 'take refugees']) + ". " + random.choice(["I'll pray", "I'm praying"])  + ' for you.'
 
 templates = [
-[["Today ", "This morning ", "This afternoon ", "At church ", "In bible study ", "Tomorrow ", "This Sunday ", "Next week ", ""], "I'm ", ["remembering ", "praying for ", "saying a prayer for ", "lighting a candle for ", "honering ", "asking for God's blessings on ", "asking Jesus to bless ", "asking God to sanctify ", "leading a prayer for "], ["veterans. ", "our soliders. ", "POWs. ", "those who died for US. ", "the gratest generation. ", "WWII vets. ", "victims of terrism. ", "my grandfather. "],["#MAGA", "#PrayForAmerica", "#PrayForVetrans", "#GodBlessAmerica", "@RealDonaldTrump", '#TrumpTrain']],
-[['Making America Grate Again ', 'Prayer ', 'Family ', 'Jesus ', 'Providing for my children '], "is what ", ['gives me purpose.', 'gives my life meaning.', 'gets me up in the morning.', 'gives me joy.', 'brings me happiness.', 'brings love to my life.', 'brings light to my life.', 'keeps me going.', 'brings joy to my heart.', 'makes my world go round.']],
-[['My dog', 'My cat'],' ', ["wants out when it's in and in when it's out", 'could stand to be more housebroken.', 'is the cutest thing ever.', 'is always by my side.', 'should be a social media star.', 'will not be quiet!', "ate my kid's homework! lol!! (writing a note now.)", 'is almost too fluffy.', 'always wants attention.', "is always in my wife's lap whenver she sits down.", 'will not stop begging.', 'prefers the cheaper food.', 'does not act like the ones in TV commercials!', 'is at it again.', 'has not gotten less destrictive with age.', 'is making a rediculous racket.', 'ate another houseplant.', 'is a menace to squirrels.', 'is eating grass again. uhoh.', 'heard me say V-E-T and is hiding somewhere.', 'has seen a bird through the window.', 'is carrying on for some reason.', 'will not stop running around the house.', 'is the background image on my phone.', 'has ruined my curtains.', 'has ruined my carpet.', 'is being sick.', 'is silly.', 'is rediculous.', 'ran away once, but came home.'], ' ', ['#lovePets', '#PetLife', '#FurryFriends', '#FuzzyFace', '', '', '', '']],
-['We must ', ['always remember', 'never forget', 'always honer', 'always honor', 'always pray for', 'pray for', 'ask God to bless'], [' the sacrifices of ', ' '], ['our parents.', 'our grandparents.', 'the police.', 'the military.', 'firefighters.', 'veterans.', 'vetrans.', 'those who served.', '9/11 first responders.'], ' ', ['#MAGA', '#PrayForAmerica', '#GodBlessAmerica', '#TrumpTrain', '#PrayerTrain', '', '']]
+[["Today ", "This morning ", "This afternoon ", "At church ", "In bible study ", "Tomorrow ", "This Sunday ", "Next week ", ""], "I'm ", ["remembering ", "praying for ", "saying a prayer for ", "lighting a candle for ", "honering ", "asking for God's blessings on ", "asking Jesus to bless ", "asking God to sanctify ", "leading a prayer for "], ["veterans. ", "our soliders. ", "POWs. ", "those who died for US. ", "the gratest generation. ", "WWII vets. ", "victims of terrism. ", "my grandfather. "],["#MAGA", "#PrayForAmerica", "#PrayForVetrans", "#GodBlessAmerica", "@RealDonaldTrump", '#TrumpTrain', '#tcot']],
+[['I always say, ', 'Like I say, ', 'As I tell my wife, ', 'Once again, I repeat, ', 'As I like to say, ', "I'm like a broken record with this: ", "I'll say it again: ", '', '', '', ''], ['Making America Grate Again ', 'Prayer ', 'Family ', 'Jesus ', 'Providing for my children '], ["is what ", 'always ', ' '], ['gives me purpose.', 'gives my life meaning.', 'gets me up in the morning.', 'gives me joy.', 'brings me happiness.', 'brings love to my life.', 'brings light to my life.', 'keeps me going.', 'brings joy to my heart.', 'makes my world go round.']],
+[['My dog', 'My cat'],' ', ["wants out when it's in and in when it's out", 'could stand to be more housebroken.', 'is the cutest thing ever.', 'is always by my side.', 'should be a social media star.', 'will not be quiet!', "ate my kid's homework! lol!! (writing a note now.)", 'is almost too fluffy.', 'always wants attention.', "is always in my wife's lap whenver she sits down.", 'will not stop begging.', 'prefers the cheaper food.', 'does not act like the ones in TV commercials!', 'is at it again.', 'has not gotten less destrictive with age.', 'is making a rediculous racket.', 'ate another houseplant.', 'is a menace to squirrels.', 'is eating grass again. uhoh.', 'heard me say V-E-T and is hiding somewhere.', 'has seen a bird through the window.', 'is carrying on for some reason.', 'will not stop running around the house.', 'is the background image on my phone.', 'has ruined my curtains.', 'has ruined my carpet.', 'is being sick.', 'is silly.', 'is rediculous.', 'ran away once, but came home.', 'has learned to mash his face into my keyboard when he wants attention.', 'is really cute but also really dumm.', 'knocked over the Christmas tree last year!', 'keeps licking his tail until he leaves a wet spot on the sofa. yuck.', 'is eager to "make friends with" the kids guinea pig. #NotAGoodIdea'], ' ', ['#lovePets', '#PetLife', '#FurryFriends', '#FuzzyFace', '', '', '', '']],
+[['We', 'America'], ' must ', ['always remember', 'never forget', 'always honer', 'always honor', 'always pray for', 'pray for', 'ask God to bless', 'thank God for', 'hold in our hearts', 'always respect'], [' the sacrifices of ', ' ', ' '], ['our parents.', 'our grandparents.', 'firefighters.', 'veterans.', 'vetrans.', 'those who served.', '9/11 first responders.'], ' ', ['#MAGA', '#PrayForAmerica', '#GodBlessAmerica', '#TrumpTrain', '#PrayerTrain', '', ''], [' #ProtectTheirHealthCare', '', '']],
+['God ', ['commands: ', 'demands: ', 'instructs us: ', 'says: '], ['I am the LORD your God: you shall have no other Gods before me', "You shall not take the Lord's name in vain.", "Remember to keep holy the LORD'S Day holy.", 'Honor your father and your mother.', 'You shall not bear false witness against your neighbor.', "You shall not covet your neighbor's wife.", "You shall not covet your neighbour's goods." 'trust in Him. Psalm 23:1 The LORD is my Shepherd; I shall not want.', 'Love God above all things.', 'Love your neighbour as yourself.'], ' ', ['#RememberGod', '#ObeyGod', '#GodsLaw', '#Commandment', '', '']]
 ]
 
 # The last 4 accounts here are related to US sports
 # You can/should replace them with different sports teams
-accounts_to_rt = ['CuteEmergency', 'AChristLife', 'EmrgencyKittens', 'AllGreatAgain', 'Vol_Football', 'Titans',  'okcthunder', 'UpTheThunder']
+accounts_to_rt = ['CuteEmergency', 'AChristLife', 'EmrgencyKittens', 'AllGreatAgain', 'USNHistory', 'JenaC2', 'Vol_Football', 'Titans',  'okcthunder', 'UpTheThunder']
+
+# What percentage should be retweets vs original content?
+# Number between 0-1
+percent_rt = 0.65

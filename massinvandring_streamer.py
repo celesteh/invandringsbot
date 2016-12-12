@@ -68,13 +68,13 @@ class MassinvandringStreamer(TwythonStreamer):
             if re.search(r'["\']' + trigger_word + r'\w*["\']', tweet["text"]):
                 return
         # if tweet is from self, return here
-        if tweet["user"]["screen_name"] == setup.screen_name:
+        if tweet["user"]["screen_name"] == apikeys.screen_name:
             return
         # tweet mentions me
-        if (setup.screen_name in tweet['text']):
+        if (apikeys.screen_name in tweet['text']):
             return
         #tweet is in reply to me
-        if tweet['in_reply_to_screen_name'] == setup.screen_name:
+        if tweet['in_reply_to_screen_name'] == apikeys.screen_name:
             return
 
         #if tweet["user"]["id"] in self.replied_to_users:
@@ -89,7 +89,7 @@ class MassinvandringStreamer(TwythonStreamer):
             #print tweet["user"]["screen_name"]
             return
         # user isn't being obviously ironic or critical
-        replies = setup.rant
+        replies = setup.callouts
         #for index, reply in enumerate(replies):
         #    replies[index] = "@" + tweet["user"]["screen_name"] + " " + reply
 
@@ -108,7 +108,13 @@ class MassinvandringStreamer(TwythonStreamer):
                 self.replied_to_users.append(tweet["user"]["id"])
                 self.replied_to_users.sort()
                 twythonaccess.set_sleep(True)
-                time.sleep(5*60*60)
+                #time.sleep(5*60*60)
+                i=0
+                while (i < 4):
+                    time.sleep((55* 60) + (300*random.random()))
+                    twythonaccess.set_sleep(False)
+                    twythonaccess.seem_normal()
+                    twythonaccess.set_sleep(True)
                 twythonaccess.set_sleep(False)
         except Exception, e:
             self.on_error(str(0), str(e))

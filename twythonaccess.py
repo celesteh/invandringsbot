@@ -26,6 +26,19 @@ time_of_last_request = datetime.utcnow()
 user_list = None
 
 
+def get_followers_count():
+    followers_count = 0;
+    try:
+        profile = authorize().show_user(screen_name=apikeys.screen_name)
+        followers_count = int(profile['followers_count'])
+    except Exception, e:
+        print "Exception in twythonaccess.get_followers_count()"
+        #print e
+        time.sleep(60*16)
+        print "continuing..."
+    return followers_count
+
+
 # The api variable is the way to access the api
 def authorize():
     # if more than 16 minutes have elapsed since last request, the requests can be reset
@@ -38,28 +51,29 @@ def authorize():
 
 
 def follow_a_user():
-    global user_list
+    follow.follow_a_user(authorize())
+    #global user_list
 
-    print "user_list " + str(user_list)
-    try:
-        if user_list is None:
-            user_list = follow.get_users(authorize())
-            print "got user list"
-
-        flag = False
-        tries = 0
-        while (not flag) and (tries < 3):
-            time.sleep(30)
-            next_user = user_list.next()
-            print "going to follow " + next_user
-            flag = follow.do_follow(authorize(), next_user)
-            tries = tries + 1
-
-    except Exception, e:
-        print "Exception!"
-        print e
-        time.sleep(30)
-
+    #print "user_list " + str(user_list)
+    #try:
+    #    if user_list is None:
+    #        user_list = follow.get_users(authorize())
+    #        print "got user list"
+#
+#        flag = False
+#        tries = 0
+#        while (not flag) and (tries < 3):
+#            time.sleep(30)
+#            next_user = user_list.next()
+#            print "going to follow " + next_user
+#            flag = follow.do_follow(authorize(), next_user)
+#            tries = tries + 1
+#
+#    except Exception, e:
+#        print "Exception!"
+#        print e
+#        time.sleep(30)
+#
 
 
 # this method sends a tweet, by first checking with me
@@ -80,6 +94,30 @@ def send_tweet(tweet, in_reply_to_status_id=0):
     print("sent tweet: " + tweet)
 
 
+def post_content():
+    try:
+        string = content.timeline_content(authorize())
+        if string is not None:
+            print 'filler is ' + string
+            authorize().update_status(status=string)
+    except Exception, e:
+        print "Exception in twythonaccess.post_content()"
+        #print e
+        time.sleep(60*16)
+        print "continuing..."
+
+
+def seem_normal():
+
+    time.sleep((1+ random.random())* 30)
+    # check if https://twitter.com/AChristLife has a new
+    # tweet and RT it
+    post_content()
+    # check for new replies
+    # follow a user
+    time.sleep((1+ random.random())* 30)
+    follow_a_user()
+
 
 def send_rant(tweets, in_reply_to_status_id=0):
 
@@ -95,21 +133,18 @@ def send_rant(tweets, in_reply_to_status_id=0):
         return False
 
 
-    time.sleep((1+ random.random())* 30)
-    # check if https://twitter.com/AChristLife has a new
-    # tweet and RT it
-    string = content.timeline_content(authorize())
-    if string is not None:
-        print 'filler is ' + string
-        authorize().update_status(status=string)
-    # check for new replies
-    # follow a user
-    time.sleep((1+ random.random())* 30)
-    follow_a_user()
-
+    seem_normal()
     # wait for 30-50 minutes to be more life-like
     time.sleep(30 * 60 + (random.random()* 20 * 60))
     follow_a_user()
+
+    # check if we have enough followers to post this?
+    if setup.on_probation or (get_followers_count() < 450):
+        print "not enough followers or on probation"
+        time.sleep(60)
+        return False
+
+
     time.sleep(60 + (random.random() *60))
     last_status_id = in_reply_to_status_id
     for tweet in tweets:
@@ -123,7 +158,7 @@ def send_rant(tweets, in_reply_to_status_id=0):
         # sleep for 30 seconds
         time.sleep(20)
         # get the status ad of the newly sent tweet
-        last_status_id = authorize().get_user_timeline(screen_name=setup.screen_name, count=1, trim_user=True, exclude_replies=False)[0]["id"]
+        last_status_id = authorize().get_user_timeline(screen_name=apikeys.screen_name, count=1, trim_user=True, exclude_replies=False)[0]["id"]
 
     # return true, since the rant was successfully sent
     #time.sleep(60 * 60 * 4) # 4 hours
