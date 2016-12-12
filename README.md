@@ -34,6 +34,6 @@ You will need python and [Twython](https://github.com/ryanmcgrath/twython). Clic
 
 # Dependencies
 
-Using python 3. Has not been tested on python 2, but should work with minor optimizations.
+Using python 3. Must meet the requirements of Twython.
 
 - [Twython](https://github.com/ryanmcgrath/twython). Used for all contact with the Twitter API.
