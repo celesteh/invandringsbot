@@ -110,8 +110,8 @@ class MassinvandringStreamer(TwythonStreamer):
                 twythonaccess.set_sleep(True)
                 #time.sleep(5*60*60)
                 i=0
-                while (i < 4):
-                    time.sleep((55* 60) + (300*random.random()))
+                while (i < 2):
+                    time.sleep((110* 60) + (600*random.random()))
                     twythonaccess.set_sleep(False)
                     twythonaccess.seem_normal()
                     twythonaccess.set_sleep(True)
