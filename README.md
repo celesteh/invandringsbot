@@ -5,7 +5,7 @@ When people post ignorant tweets about immigration, this bot replies with a rant
 
 Please note that in order for this to be effective, the bot account should have a white person as a user icon and a name that sounds white or pro-Trump (eg, includes 'deplorable'). An icon of Trump holding the bible is included.
 
-The bot MUST also have a few hundred followers or it may be counter-productive. To get followers, you may either purchase them or just let your bot run for a week or so and it will gradually build up a following on it's own.
+The bot MUST also have a few hundred followers or it may be counter-productive. To get followers, you may either purchase them or just let your bot run for a week or so and it will gradually build up a following on it's own. If you get impatient, you can login and try following some users on #MAGA or Trump-related hashtags or click on suggested accounts. Try to pick accounts that have a good ratio of following to followers.
 
 If you are starting from a new account, follow all the initial
 suggestions that Twitter gives you. Make a few tweets, including
@@ -14,7 +14,7 @@ Your first few manual tweets should either be innocuous or demonstrating members
 
 # How it works
 
-Every 5 hours, when someone tweets a tweet containing a certain trigger word or phrase, invandringsbot will reply with a callout.  If the bot responds too often, twitter will ban it, so the long wait is necessary.
+Once the bot has enough followers, every 5 hours, when someone tweets a tweet containing a certain trigger word or phrase, invandringsbot will reply with a callout.  If the bot responds too often, twitter will ban it, so the long wait is necessary.
 
 In this specific, forked implementation of invandringsbot, the trigger word is "rapefugee" and the callout is about the moral responsibility we have to welcome refugees. However, the trigger word can be anything, as can the callout be. Both can be found in the setup file.
 

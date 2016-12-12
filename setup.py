@@ -18,8 +18,7 @@ trigger_words = "rapefugee,rapefugees"
 
 # The rant to reply to each user that has tweeted the trigger word with.
 # No more than 15 tweets are allowed, due to the rate limits of the Twitter API.
-callouts = [#"Hey, that kind of talk hurts real people. Remember, Jesus was a refugee in Egypt. #MAGA",
-        #"Hey, that kind of talk hurts real people. My grate grandparents were refugees from Ireland. #MAGA",
+callouts = [
         "Hey, that kind of talk hurts real people. Leviticus 19:33-34 commands us to take refugees.",
         "Hey, that kind of talk hurts real people. Matthew 25:35 commands us welcome strangers. #MAGA",
         "Hey, that kind of talk hurts real people. They used to say the same things abt Catholics, like VP Pence. #MAGA",
