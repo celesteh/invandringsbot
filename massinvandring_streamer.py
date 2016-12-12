@@ -9,6 +9,7 @@ import re
 import glob
 import random
 import time
+import apikeys
 
 # the MassinvandringStreamer class will use the streaming api to find tweets containing the word 'massinvandring'
 # This class could technically be used to reply to all kinds of tweets.
@@ -60,7 +61,6 @@ class MassinvandringStreamer(TwythonStreamer):
 
     # this function will be called when a tweet is received
     def on_success(self, tweet):
-        print tweet["text"]
         # generate a reply
         # first check so massinvandring isn't in quotes
         # this is to remove tweets that aren't genuinely xenophobic
@@ -84,11 +84,14 @@ class MassinvandringStreamer(TwythonStreamer):
 
         #exclude retweets
         if "retweeted_status" in tweet: #tweet["retweeted_status"]:
-            print "retweet"
+            #print "retweet"
             #print tweet["id"]
             #print tweet["user"]["screen_name"]
             return
         # user isn't being obviously ironic or critical
+
+        print str(tweet["user"]) + ' ' + tweet["text"]
+
         replies = setup.callouts
         #for index, reply in enumerate(replies):
         #    replies[index] = "@" + tweet["user"]["screen_name"] + " " + reply
@@ -117,6 +120,7 @@ class MassinvandringStreamer(TwythonStreamer):
                     twythonaccess.set_sleep(True)
                 twythonaccess.set_sleep(False)
         except Exception, e:
+            self.dump_blocks()
             self.on_error(str(0), str(e))
 
 
