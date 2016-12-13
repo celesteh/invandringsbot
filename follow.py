@@ -11,7 +11,7 @@ user_list = None
 
 def get_users(twitter):
 
-    users = ['amrightnow', 'USFreedomArmy' ,'GrateAmerica', apikeys.screen_name,'investisock', 'intellwatch', 'pza_patty' ]
+    users = ['amrightnow', 'USFreedomArmy' ,'GrateAmerica', apikeys.screen_name,'investisock', 'intellwatch']
     while True:
         random.shuffle(users)
         for user in users:
@@ -79,7 +79,7 @@ def follow_a_user(twitter):
 
         flag = False
         tries = 0
-        while (not flag) and (tries < 3):
+        while (not flag) and (tries < 5):
             time.sleep(30)
             next_user = user_list.next()
             print "going to follow " + next_user

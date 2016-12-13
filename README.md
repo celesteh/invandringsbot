@@ -30,7 +30,7 @@ You will need python and [Twython](https://github.com/ryanmcgrath/twython). Clic
 2. Fork this repository.
 3. Rename the `apikeys_template.py` file to `apikeys.py`, and add your Twitter API keys as obtained from apps.twitter.com.
 4. If you wish to change the trigger word, the callouts, or general content the bot tweets, open setup.py
-5. Now, start invandringsbot by calling `python3 mainbot.py`, when in the correct directory in your terminal.
+5. Now, start invandringsbot by calling `python mainbot.py`, when in the correct directory in your terminal.
 
 # Dependencies
 

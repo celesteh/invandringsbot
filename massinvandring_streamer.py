@@ -90,7 +90,7 @@ class MassinvandringStreamer(TwythonStreamer):
             return
         # user isn't being obviously ironic or critical
 
-        print str(tweet["user"]) + ' ' + tweet["text"]
+        print str(tweet["user"]["screen_name"]) + ' ' + tweet["text"]
 
         replies = setup.callouts
         #for index, reply in enumerate(replies):
@@ -118,6 +118,7 @@ class MassinvandringStreamer(TwythonStreamer):
                     twythonaccess.set_sleep(False)
                     twythonaccess.seem_normal()
                     twythonaccess.set_sleep(True)
+                    i = i + 1
                 twythonaccess.set_sleep(False)
         except Exception, e:
             self.dump_blocks()
