@@ -68,7 +68,7 @@ def do_follow(twitter, user, ifLikely=True):
     return flag
 
 
-def follow_a_user(twitter):
+def follow_a_user(twitter, limit=3):
     global user_list
 
     #print "user_list " + str(user_list)
@@ -79,8 +79,8 @@ def follow_a_user(twitter):
 
         flag = False
         tries = 0
-        while (not flag) and (tries < 5):
-            time.sleep(30)
+        while (not flag) and (tries < limit):
+            time.sleep(28 + (6* random.random()))
             next_user = user_list.next()
             print "going to follow " + next_user
             flag = do_follow(twitter, next_user)

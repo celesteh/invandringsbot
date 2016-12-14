@@ -36,7 +36,7 @@ def main():
 
         except Exception, e:
             print "Exception in main()"
-            #print e
+            print e
             print "sleeping"
             time.sleep(60*16 + (60 * random.random()))
             print "continuing..."

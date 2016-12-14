@@ -50,8 +50,8 @@ def authorize():
     return Twython(apikeys.CONSUMER_KEY, apikeys.CONSUMER_SECRET, apikeys.ACCESS_TOKEN, apikeys.ACCESS_TOKEN_SECRET)
 
 
-def follow_a_user():
-    follow.follow_a_user(authorize())
+def follow_a_user(limit=3):
+    follow.follow_a_user(authorize(), limit)
     #global user_list
 
     #print "user_list " + str(user_list)
@@ -74,6 +74,15 @@ def follow_a_user():
 #        print e
 #        time.sleep(30)
 #
+
+def do_reply(tweet):
+
+    reply = "@" + tweet["user"]["screen_name"] + " " + content.construct_tweet(random.choice(setup.callouts))
+
+    print reply
+
+    return send_rant(tweets = [reply], in_reply_to_status_id = tweet["id"])
+
 
 
 # this method sends a tweet, by first checking with me
@@ -102,7 +111,7 @@ def post_content():
             authorize().update_status(status=string)
     except Exception, e:
         print "Exception in twythonaccess.post_content()"
-        #print e
+        print e
         time.sleep(60*16)
         print "continuing..."
 
@@ -116,7 +125,7 @@ def seem_normal():
     # check for new replies
     # follow a user
     time.sleep((1+ random.random())* 30)
-    follow_a_user()
+    follow_a_user(7)
 
 
 def send_rant(tweets, in_reply_to_status_id=0):

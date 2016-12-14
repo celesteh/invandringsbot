@@ -62,11 +62,25 @@ class MassinvandringStreamer(TwythonStreamer):
     # this function will be called when a tweet is received
     def on_success(self, tweet):
         # generate a reply
-        # first check so massinvandring isn't in quotes
+
+        print tweet['text']
+
+        # first check so trigger words aren't in quotes
+        # or in quoted tweets
         # this is to remove tweets that aren't genuinely xenophobic
+        # it can be in a quoted phrase
+        found = False
         for trigger_word in setup.trigger_words.split(","):
-            if re.search(r'["\']' + trigger_word + r'\w*["\']', tweet["text"]):
+            if trigger_word in tweet["text"]:
+                found = True
+
+            if re.search(r'["\'].*' + trigger_word + r'.*["\']', tweet["text"]):
                 return
+
+        if not found:
+            # must have been in a quoted tweet
+            return
+
         # if tweet is from self, return here
         if tweet["user"]["screen_name"] == apikeys.screen_name:
             return
@@ -92,22 +106,23 @@ class MassinvandringStreamer(TwythonStreamer):
 
         print str(tweet["user"]["screen_name"]) + ' ' + tweet["text"]
 
-        replies = setup.callouts
+        #reply = content.construct_tweet(setup.callouts)
         #for index, reply in enumerate(replies):
         #    replies[index] = "@" + tweet["user"]["screen_name"] + " " + reply
 
 
         # try to send the reply (not guaranteed)
         #if twythonaccess.send_rant(tweets = replies, in_reply_to_status_id = tweet["id"]):
-        reply = "@" + tweet["user"]["screen_name"] + " " + random.choice(replies)
+        #reply = "@" + tweet["user"]["screen_name"] + " " + content.construct_tweet(setup.callouts)
 
         #print tweet["id"]
-        print reply
+        #print reply
 
         #next 3 lines commented for testing
         #twythonaccess.send_tweet(tweet=reply,  in_reply_to_status_id=tweet["id"])
         try:
-            if twythonaccess.send_rant(tweets = [reply], in_reply_to_status_id = tweet["id"]):
+            #if twythonaccess.send_rant(tweets = [reply], in_reply_to_status_id = tweet["id"]):
+            if twythonaccess.do_reply(tweet):
                 self.replied_to_users.append(tweet["user"]["id"])
                 self.replied_to_users.sort()
                 twythonaccess.set_sleep(True)
