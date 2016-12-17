@@ -144,11 +144,13 @@ def send_rant(tweets, in_reply_to_status_id=0):
 
     seem_normal()
     # wait for 30-50 minutes to be more life-like
-    time.sleep(30 * 60 + (random.random()* 20 * 60))
-    follow_a_user()
+    time.sleep(27 * 60 + (random.random()* 17 * 60))
+    #follow_a_user()
+    seem_normal()
+    time.sleep(3 * 60 + (random.random()* 3 * 60))
 
     # check if we have enough followers to post this?
-    if setup.on_probation or (get_followers_count() < 450):
+    if setup.on_probation or (get_followers_count() < 501):
         print "not enough followers or on probation"
         time.sleep(60)
         return False

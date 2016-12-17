@@ -37,3 +37,4 @@ You will need python and [Twython](https://github.com/ryanmcgrath/twython). Clic
 Using python 3. Must meet the requirements of Twython.
 
 - [Twython](https://github.com/ryanmcgrath/twython). Used for all contact with the Twitter API.
+- setproctitle

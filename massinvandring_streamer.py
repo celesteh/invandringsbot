@@ -51,7 +51,7 @@ class MassinvandringStreamer(TwythonStreamer):
             #try:
                 f = file('data/block_list'+ str(time.time())+'.csv', 'w')
                 for item in self.replied_to_users:
-                    f.write(item+'\n')
+                    f.write(str(item)+'\n')
                 f.close()
                 self.replied_to_users = []
                 self.files = glob.glob("data/block_list*.csv")
@@ -63,7 +63,7 @@ class MassinvandringStreamer(TwythonStreamer):
     def on_success(self, tweet):
         # generate a reply
 
-        print tweet['text']
+        #print tweet['text']
 
         # first check so trigger words aren't in quotes
         # or in quoted tweets
@@ -126,7 +126,10 @@ class MassinvandringStreamer(TwythonStreamer):
                 self.replied_to_users.append(tweet["user"]["id"])
                 self.replied_to_users.sort()
                 twythonaccess.set_sleep(True)
-                #time.sleep(5*60*60)
+                time.sleep((3*60) + (120 * random.random()))
+                twythonaccess.set_sleep(False)
+                twythonaccess.seem_normal()
+                twythonaccess.set_sleep(True)
                 i=0
                 while (i < 2):
                     time.sleep((110* 60) + (600*random.random()))

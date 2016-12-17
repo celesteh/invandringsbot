@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 # Import the twythonaccess
 import twythonaccess
 from twython import Twython
@@ -11,18 +13,22 @@ import time
 import random
 import content
 import setup
-
+import setproctitle
 
 
 # the main function will be called when this script is called in terminal
 # the bash command "python3 mainbot.py" will call this function
 def main():
+
+    setproctitle.setproctitle('invandringsbot')
+
+
     # check if bot has enough followers_count
 
     while True:
         try:
 
-            while (twythonaccess.get_followers_count() < 450) or setup.on_probation:
+            while (twythonaccess.get_followers_count() < 501) or setup.on_probation:
                 twythonaccess.post_content()
                 twythonaccess.follow_a_user()
                 time.sleep(60 + (300* random.random()))
@@ -37,6 +43,11 @@ def main():
         except Exception, e:
             print "Exception in main()"
             print e
+            try:
+                if streamer is not None:
+                    streamer.dump_blocks()
+            except Exception, e:
+                pass
             print "sleeping"
             time.sleep(60*16 + (60 * random.random()))
             print "continuing..."

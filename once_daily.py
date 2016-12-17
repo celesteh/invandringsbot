@@ -11,9 +11,10 @@ import apikeys
 # the main function will be called when this script is called in terminal
 # the bash command "python3 once_daily.py" will call this function
 def main():
-    twitter = Twython(apikeys.CONSUMER_KEY, apikeys.CONSUMER_SECRET, apikeys.ACCESS_TOKEN, apikeys.ACCESS_TOKEN_SECRET)
+    #twitter = Twython(apikeys.CONSUMER_KEY, apikeys.CONSUMER_SECRET, apikeys.ACCESS_TOKEN, apikeys.ACCESS_TOKEN_SECRET)
 
-    twitter.update_status(status=setup.non_reply)
+    #twitter.update_status(status=setup.non_reply)
+    twythonaccess.seem_normal()
 
 
 # if called directly (as in "python3 mainbot.py"), then call main() function
