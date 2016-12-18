@@ -16,7 +16,7 @@ eval cd /home/pi/Code/invandringsbot/
 case "$1" in
   start)
     sleep 180
-    su $USER -c '/usr/bin/python /home/pi/Code/invandringsbot/mainbot.py'
+    su $USER -c '/usr/bin/python /home/pi/Code/invandringsbot/mainbot.py &'
     echo "Starting invandringsbot"
     ;;
   stop)
