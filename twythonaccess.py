@@ -102,6 +102,7 @@ def send_tweet(tweet, in_reply_to_status_id=0):
         # tweet is a reply
         # check original still exists
         target = authorize().lookup_status(id=in_reply_to_status_id)[0]
+        target['id'] # don't do anything, just check it's there
         time.sleep(3)
         authorize().update_status(status=tweet, in_reply_to_status_id=in_reply_to_status_id)
     print("sent tweet: " + tweet)
