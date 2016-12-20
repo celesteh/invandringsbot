@@ -21,6 +21,9 @@ class MassinvandringStreamer(TwythonStreamer):
     # users from previous returns
     files = glob.glob("data/*.csv")
 
+    awake = 0
+    last_act = 0
+
 
     def check_duplicate (self, id_str ):
 
@@ -104,6 +107,15 @@ class MassinvandringStreamer(TwythonStreamer):
             return
         # user isn't being obviously ironic or critical
 
+        if time.time() < self.awake:
+            if (time.time() - self.last_act) > (110 * 60):
+                twythonaccess.set_sleep(False)
+                twythonaccess.seem_normal()
+                twythonaccess.set_sleep(True)
+                self.last_act = time.time()
+            return
+
+        twythonaccess.set_sleep(False)
         print str(tweet["user"]["screen_name"]) + ' ' + tweet["text"]
 
         #reply = content.construct_tweet(setup.callouts)
@@ -126,18 +138,22 @@ class MassinvandringStreamer(TwythonStreamer):
                 self.replied_to_users.append(tweet["user"]["id"])
                 self.replied_to_users.sort()
                 twythonaccess.set_sleep(True)
+                self.last_act = time.time()
+                self.awake = self.last_act + (4 * 60 * 60) + (60 * 60 * random.random())
+
+
                 time.sleep((3*60) + (120 * random.random()))
                 twythonaccess.set_sleep(False)
                 twythonaccess.seem_normal()
                 twythonaccess.set_sleep(True)
-                i=0
-                while (i < 2):
-                    time.sleep((110* 60) + (600*random.random()))
-                    twythonaccess.set_sleep(False)
-                    twythonaccess.seem_normal()
-                    twythonaccess.set_sleep(True)
-                    i = i + 1
-                twythonaccess.set_sleep(False)
+                #i=0
+                #while (i < 2):
+                #    time.sleep((110* 60) + (600*random.random()))
+                #    twythonaccess.set_sleep(False)
+                #    twythonaccess.seem_normal()
+                #    twythonaccess.set_sleep(True)
+                #    i = i + 1
+                #twythonaccess.set_sleep(False)
         except Exception, e:
             self.dump_blocks()
             self.on_error(str(0), str(e))

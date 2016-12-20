@@ -77,6 +77,7 @@ def follow_a_user(limit=3):
 
 def do_reply(tweet):
 
+    tweet = authorize().lookup_status(id=tweet['id'])[0]
     reply = "@" + tweet["user"]["screen_name"] + " " + content.construct_tweet(random.choice(setup.callouts))
 
     print reply
@@ -99,6 +100,9 @@ def send_tweet(tweet, in_reply_to_status_id=0):
         authorize().update_status(status=tweet)
     else:
         # tweet is a reply
+        # check original still exists
+        target = authorize().lookup_status(id=in_reply_to_status_id)[0]
+        time.sleep(3)
         authorize().update_status(status=tweet, in_reply_to_status_id=in_reply_to_status_id)
     print("sent tweet: " + tweet)
 
