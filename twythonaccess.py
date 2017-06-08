@@ -51,7 +51,9 @@ def authorize():
 
 
 def follow_a_user(limit=3):
-    follow.follow_a_user(authorize(), limit)
+
+    if get_followers_count() <= 1100:
+        follow.follow_a_user(authorize(), limit)
     #global user_list
 
     #print "user_list " + str(user_list)
