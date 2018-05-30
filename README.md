@@ -3,7 +3,7 @@ When people post ignorant tweets about immigration, this bot replies with a remi
 
 # Social Requirements
 
-Please note that in order for this to be effective, per Munger's research, the bot account should have a white person as a user icon and a name that sounds white or pro-Trump (eg, includes 'deplorable'). An icon of Trump holding the bible is included.
+Please note that in order for this to be effective, per Munger's research, the bot account should have a white man as a user icon and a name that sounds white and male or pro-Trump (eg, includes 'deplorable'). An icon of Trump holding the bible is included.
 
 The bot MUST also have a few hundred followers or it may be counter-productive. To get followers, you may either purchase them or just let your bot run for a week or so and it will gradually build up a following on it's own. If you get impatient, you can login and try following some users on #MAGA or Trump-related hashtags or click on suggested accounts. Try to pick accounts that have a good ratio of following to followers.
 
