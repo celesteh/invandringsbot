@@ -16,7 +16,7 @@ Your first few manual tweets should either be innocuous or demonstrating members
 
 Once the bot has enough followers, every 5 hours, when someone tweets a tweet containing a certain trigger word or phrase, invandringsbot will reply with a callout.  If the bot responds too often, twitter will ban it, so the long wait is necessary.
 
-_Content Warning for Sexual Assault in the next paragraph_
+_Content Warning for Sexual Assault and Racism in the next paragraph_
 
 In this specific, forked implementation of invandringsbot, the trigger word is "rapefugee" and the callout is about the moral responsibility we have to welcome refugees. However, the trigger word can be anything, as can the callout be. Both can be found in the setup file.
 
